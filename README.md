@@ -67,5 +67,5 @@ pnpm preview
 
 ## Despliegue
 
-El proyecto incluye [`vercel.json`](./vercel.json) para redirigir las rutas de la SPA a `index.html`. Importa el repositorio en Vercel y usa la configuración predeterminada de Vite; no hacen falta variables de entorno.
+El proyecto puede desplegarse desde vercel en: https://proyecto01-sakura-anime.vercel.app/
 
