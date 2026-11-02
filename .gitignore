@@ -31,7 +31,5 @@ Desktop.ini
 .idea/
 .vscode/*
 !.vscode/extensions.json
-
-# Generated AI Studio metadata and unused source attachments
 metadata.json
 public/assets/aistudio/
