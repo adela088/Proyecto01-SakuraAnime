@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+.pnp.*
+
+# Build output and coverage
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Local environment files
+.env*
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Tool caches
+.vite/
+.turbo/
+.eslintcache
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE files
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Generated AI Studio metadata and unused source attachments
+metadata.json
+public/assets/aistudio/
