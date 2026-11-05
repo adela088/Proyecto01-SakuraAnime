@@ -94,7 +94,6 @@ function mapResource(
   return {
     id: resource.id,
     entity,
-    source: 'kitsu',
     url: resource.links?.self ?? `${KITSU_BASE}/${entity}/${resource.id}`,
     images: { jpg: { image_url: poster, large_image_url: poster } },
     title,

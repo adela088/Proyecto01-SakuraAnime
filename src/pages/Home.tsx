@@ -7,14 +7,13 @@ import { LoadingSkeleton } from '../components/LoadingSkeleton';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { GHIBLI_BASE } from '../config/api';
 import { fetchWithRetry } from '../utils/fetchWithRetry';
-import { fetchCatalogue } from '../utils/catalogue';
+import { fetchKitsuCatalogue } from '../utils/kitsu';
 import { SakuraIcon } from '../components/SakuraIcon';
 
 export const Home: React.FC = () => {
   const [topAnime, setTopAnime] = useState<CatalogItem[]>([]);
   const [ghibliFilms, setGhibliFilms] = useState<GhibliFilm[]>([]);
   const [ghibliError, setGhibliError] = useState<string | null>(null);
-  const [catalogueFallback, setCatalogueFallback] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,7 +25,7 @@ export const Home: React.FC = () => {
     setError(null);
 
     const [animeResult, ghibliResult] = await Promise.allSettled([
-      fetchCatalogue('anime', 1, '', ''),
+      fetchKitsuCatalogue('anime', 1, '', ''),
       (async () => {
         const response = await fetchWithRetry(`${GHIBLI_BASE}/films`);
         if (!response.ok) throw new Error(`Studio Ghibli respondió HTTP ${response.status}`);
@@ -39,9 +38,7 @@ export const Home: React.FC = () => {
     if (isMountedRef.current) {
       if (animeResult.status === 'fulfilled') {
         setTopAnime(animeResult.value.items.slice(0, 6));
-        setCatalogueFallback(animeResult.value.fallbackReason ?? null);
       } else {
-        setCatalogueFallback(null);
         setError(
           animeResult.reason instanceof Error
             ? animeResult.reason.message
@@ -79,7 +76,7 @@ export const Home: React.FC = () => {
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10 space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100/80 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-900/60 text-xs font-semibold text-rose-700 dark:text-rose-300">
             <SakuraIcon className="w-3.5 h-3.5" />
-            <span>Explorador Otaku con Jikan, Kitsu & Studio Ghibli</span>
+            <span>Explorador Otaku con Kitsu & Studio Ghibli</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white font-display leading-[1.15]">
@@ -129,11 +126,6 @@ export const Home: React.FC = () => {
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
               Anime popular según las valoraciones de la comunidad.
             </p>
-            {catalogueFallback && !loading && (
-              <p className="mt-2 text-sm text-amber-700 dark:text-amber-300">
-                Jikan no está disponible  ({catalogueFallback}); mostramos resultados de respaldo de la API Kitsu.
-              </p>
-            )}
           </div>
 
           <Link
@@ -159,7 +151,7 @@ export const Home: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-5">
             {topAnime.map(item => (
               <AnimeCard
-                key={`${item.source ?? 'kitsu'}:${item.entity}:${item.id}`}
+                key={`${item.entity}:${item.id}`}
                 item={item}
                 entityType="anime"
               />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { CatalogItem } from '../types/anime';
 import { useFavorites } from '../context/FavoritesContext';
 import { useToast } from '../context/ToastContext';
@@ -19,15 +19,12 @@ import {
 import { LoadingSkeleton } from '../components/LoadingSkeleton';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { ConfirmationDialog, ConfirmationDialogHandle } from '../components/ConfirmationDialog';
-import { fetchJikanDetail } from '../utils/jikan';
 import { fetchKitsuDetail } from '../utils/kitsu';
 import { SakuraIcon } from '../components/SakuraIcon';
 
 export const Detail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
-  const [searchParams] = useSearchParams();
-  const source = searchParams.get('source') === 'kitsu' ? 'kitsu' : 'jikan';
   const isManga = location.pathname.startsWith('/manga');
   const entityType = isManga ? 'manga' : 'anime';
 
@@ -55,10 +52,7 @@ export const Detail: React.FC = () => {
         setLoading(true);
         setError(null);
 
-        const detail =
-          source === 'jikan'
-            ? await fetchJikanDetail(entityType, itemId, controller.signal)
-            : await fetchKitsuDetail(entityType, itemId, controller.signal);
+        const detail = await fetchKitsuDetail(entityType, itemId, controller.signal);
         if (isMounted) setItem(detail);
       } catch (err: unknown) {
         if (err instanceof Error && err.name !== 'AbortError') {
@@ -77,7 +71,7 @@ export const Detail: React.FC = () => {
       isMounted = false;
       controller.abort();
     };
-  }, [id, entityType, source]);
+  }, [id, entityType]);
 
   const handleFavoriteAction = () => {
     if (!item) return;
@@ -170,7 +164,7 @@ export const Detail: React.FC = () => {
           <div className="space-y-4">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-rose-500 flex items-center gap-1">
-                <SakuraIcon className="w-3.5 h-3.5" /> ID {item.source === 'kitsu' ? 'Kitsu' : 'Jikan'} #{item.id}
+                <SakuraIcon className="w-3.5 h-3.5" /> ID Kitsu #{item.id}
               </span>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-display mt-1">
                 {item.title}

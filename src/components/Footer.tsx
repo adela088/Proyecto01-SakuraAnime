@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
               <span>SakuraAnime</span>
             </Link>
             <p className="text-xs text-slate-500 dark:text-slate-400 text-center md:text-left max-w-sm">
-              Explorador SPA de anime y manga con Jikan, Kitsu como respaldo y Studio Ghibli.
+              Explorador SPA de anime y manga con Kitsu y Studio Ghibli.
             </p>
           </div>
 

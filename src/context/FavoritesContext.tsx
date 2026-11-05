@@ -1,9 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { CatalogItem } from '../types/anime';
 
-type CatalogItemIdentity = Pick<CatalogItem, 'id' | 'entity' | 'source'>;
-
-const getSource = (item: CatalogItemIdentity) => item.source ?? 'kitsu';
+type CatalogItemIdentity = Pick<CatalogItem, 'id' | 'entity'>;
 
 interface FavoritesContextType {
   favorites: CatalogItem[];
@@ -38,7 +36,7 @@ export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const addFavorite = useCallback((item: CatalogItem) => {
     setFavorites(prev => {
-      if (prev.some(f => f.id === item.id && f.entity === item.entity && getSource(f) === getSource(item))) {
+      if (prev.some(f => f.id === item.id && f.entity === item.entity)) {
         return prev;
       }
       return [item, ...prev];
@@ -47,17 +45,13 @@ export const FavoritesProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const removeFavorite = useCallback((item: CatalogItemIdentity) => {
     setFavorites(prev =>
-      prev.filter(
-        f => f.id !== item.id || f.entity !== item.entity || getSource(f) !== getSource(item)
-      )
+      prev.filter(f => f.id !== item.id || f.entity !== item.entity)
     );
   }, []);
 
   const isFavorite = useCallback(
     (item: CatalogItemIdentity): boolean => {
-      return favorites.some(
-        f => f.id === item.id && f.entity === item.entity && getSource(f) === getSource(item)
-      );
+      return favorites.some(f => f.id === item.id && f.entity === item.entity);
     },
     [favorites]
   );

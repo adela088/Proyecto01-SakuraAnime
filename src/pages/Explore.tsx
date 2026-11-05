@@ -12,7 +12,7 @@ import { ChevronLeft, ChevronRight, Film, SearchX } from 'lucide-react';
 import { GHIBLI_BASE } from '../config/api';
 import { fetchWithRetry } from '../utils/fetchWithRetry';
 import { GhibliFilm } from '../types/anime';
-import { fetchCatalogue as fetchCatalogueItems } from '../utils/catalogue';
+import { fetchKitsuCatalogue } from '../utils/kitsu';
 
 export const Explore: React.FC = () => {
   const { removeFavorite } = useFavorites();
@@ -27,9 +27,6 @@ export const Explore: React.FC = () => {
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [totalItems, setTotalItems] = useState<number | undefined>(undefined);
-  const [catalogueSource, setCatalogueSource] = useState<'jikan' | 'kitsu' | null>(null);
-  const [fallbackReason, setFallbackReason] = useState<string | null>(null);
-
   const [filters, setFilters] = useState<FilterState>({
     query: '',
     type: '',
@@ -89,7 +86,7 @@ export const Explore: React.FC = () => {
         } else {
           setGhibliLoading(false);
         }
-        const result = await fetchCatalogueItems(
+        const result = await fetchKitsuCatalogue(
           currentFilters.entity,
           currentPage,
           currentFilters.query,
@@ -100,8 +97,6 @@ export const Explore: React.FC = () => {
         setItems(result.items);
         setHasNextPage(result.hasNextPage);
         setTotalItems(result.total);
-        setCatalogueSource(result.source);
-        setFallbackReason(result.fallbackReason ?? null);
       } catch (err: unknown) {
         if (err instanceof Error && err.name === 'AbortError') return;
         const msg =
@@ -112,8 +107,6 @@ export const Explore: React.FC = () => {
         setItems([]);
         setHasNextPage(false);
         setTotalItems(undefined);
-        setCatalogueSource(null);
-        setFallbackReason(null);
       } finally {
         if (abortRef.current === controller) {
           setLoading(false);
@@ -187,7 +180,7 @@ export const Explore: React.FC = () => {
           Explorar {filters.entity === 'anime' ? 'Anime' : 'Manga'}
         </h1>
         <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-          Busca títulos, filtra por estado y descubre anime y manga con Jikan.
+          Busca títulos, filtra por estado y descubre anime y manga con Kitsu.
         </p>
       </div>
 
@@ -198,12 +191,6 @@ export const Explore: React.FC = () => {
         onReset={handleResetFilters}
         totalResults={totalItems}
       />
-
-      {catalogueSource === 'kitsu' && !loading && !error && (
-        <p role="status" className="text-sm text-amber-700 dark:text-amber-300">
-          Jikan no está disponible ({fallbackReason}); mostramos resultados de respaldo de Kitsu.
-        </p>
-      )}
 
       {loading && (
         <LoadingSkeleton
@@ -235,7 +222,7 @@ export const Explore: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {items.map(item => (
               <AnimeCard
-                key={`${item.source ?? 'kitsu'}:${item.entity}:${item.id}`}
+                key={`${item.entity}:${item.id}`}
                 item={item}
                 entityType={filters.entity}
                 onRequestRemove={handleRequestRemove}

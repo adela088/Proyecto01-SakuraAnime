@@ -49,8 +49,7 @@ export const AnimeCard: React.FC<AnimeCardProps> = ({
   };
 
   const actualEntity = item.entity || entityType;
-  const source = item.source ?? 'kitsu';
-  const detailPath = `/${actualEntity}/${item.id}?source=${source}`;
+  const detailPath = `/${actualEntity}/${item.id}`;
 
   return (
     <article className="group relative flex flex-col bg-white dark:bg-[#1a1222] rounded-2xl overflow-hidden border border-rose-100/90 dark:border-rose-950/60 shadow-sm hover:shadow-xl hover:shadow-rose-500/10 hover:border-rose-300/80 dark:hover:border-rose-700/60 transition-all duration-300">

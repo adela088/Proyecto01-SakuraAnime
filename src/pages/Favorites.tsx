@@ -79,7 +79,7 @@ export const Favorites: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {favorites.map(item => (
             <AnimeCard
-              key={`${item.source ?? 'kitsu'}:${item.entity}:${item.id}`}
+              key={`${item.entity}:${item.id}`}
               item={item}
               entityType={item.entity}
               onRequestRemove={handleRequestRemove}

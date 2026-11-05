@@ -38,7 +38,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                   : 'text-slate-600 dark:text-slate-300 hover:text-rose-600'
               }`}
             >
-              Anime (Jikan) + Ghibli
+              Anime + Ghibli
             </button>
             <button
               type="button"
@@ -49,7 +49,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                   : 'text-slate-600 dark:text-slate-300 hover:text-pink-600'
               }`}
             >
-              Manga (Jikan)
+              Manga
             </button>
           </div>
         </div>
@@ -116,7 +116,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               <>
                 <option value="publishing">Publicándose</option>
                 <option value="complete">Completo</option>
-                <option value="hiatus">En pausa</option>
+                <option value="upcoming">Próximamente</option>
               </>
             )}
           </select>

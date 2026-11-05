@@ -1,12 +1,11 @@
 # SakuraAnime
 
-Aplicación web para explorar anime y manga, consultar sus detalles y guardar favoritos. El catálogo consulta **Jikan** como API principal y usa **Kitsu** automáticamente como respaldo si Jikan no está disponible. Las películas de Studio Ghibli se muestran desde su API aparte.
+Aplicación web para explorar anime y manga, consultar sus detalles y guardar favoritos. El catálogo usa **Kitsu** para anime y manga, y muestra las películas de Studio Ghibli desde su API aparte.
 
 ## Funcionalidades
 
 - Catálogo de anime y manga con búsqueda, filtros por estado y paginación.
-- Detalles de cada título, con proveedor de datos preservado al navegar.
-- Respaldo automático a Kitsu con aviso visible cuando Jikan falla.
+- Detalles de cada título obtenidos desde Kitsu.
 - Catálogo independiente de películas de Studio Ghibli.
 - Favoritos persistidos localmente en el navegador.
 - Tema claro/oscuro, diseño responsive y formulario de contacto validado.
@@ -20,11 +19,10 @@ Aplicación web para explorar anime y manga, consultar sus detalles y guardar fa
 
 ## APIs
 
-- [Jikan API](https://api.jikan.moe/v4): catálogo principal de anime y manga.
-- [Kitsu API](https://kitsu.io/api/edge): proveedor de respaldo automático para anime y manga.
+- [Kitsu API](https://kitsu.io/api/edge): catálogo y detalles de anime y manga.
 - [Studio Ghibli API](https://ghibliapi.vercel.app): catálogo de películas.
 
-Las APIs se consultan desde el navegador y no requieren una clave propia. La disponibilidad de Jikan y de las otras APIs depende de la conexión de red.
+Las APIs se consultan desde el navegador y no requieren una clave propia. Su disponibilidad depende de la conexión de red.
 
 ## Requisitos
 
@@ -68,4 +66,3 @@ pnpm preview
 ## Despliegue
 
 El proyecto puede desplegarse desde vercel en: https://proyecto01-sakura-anime.vercel.app/
-

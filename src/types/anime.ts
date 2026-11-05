@@ -11,7 +11,6 @@ export interface CatalogStudio {
 export interface CatalogItem {
   id: string;
   entity: EntityType;
-  source?: CatalogSource;
   url: string;
   images: {
     jpg: {
@@ -36,8 +35,6 @@ export interface CatalogItem {
   studios?: CatalogStudio[];
   genres?: CatalogGenre[];
 }
-
-export type CatalogSource = 'jikan' | 'kitsu';
 
 export interface GhibliFilm {
   id: string;
